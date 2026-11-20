@@ -1,0 +1,10 @@
+Bohemiablo playtest
+
+Museum models, textures, and animations:
+Strata Bohemica (https://github.com/strata-bohemica/strata-bohemica), CC BY 4.0
+https://creativecommons.org/licenses/by/4.0/
+Selected assets are arranged, scaled, and lit in the game scene.
+Additional village assets come from the Strata Bohemica Studio collection.
+
+Voice performances and guitar recording supplied by the project owner.
+Diablo Heavy typeface by MaGiK Software (1997).

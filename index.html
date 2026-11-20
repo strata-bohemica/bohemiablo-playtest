@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="cs">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Bohemiablo</title>
+	<link rel="author" href="credits.txt">
+	<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
+<link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
+
+	<style>
+		:root { color-scheme: dark; }
+		html, body { margin: 0; background: #141513; }
+		body { overflow: hidden; touch-action: none; }
+		canvas { display: block; outline: none; }
+		#status {
+			position: fixed;
+			inset: 0;
+			background: #101017;
+			color: #dfc29a;
+			display: grid;
+			place-items: center;
+		}
+		.loading-art {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: 57% center;
+		}
+		.loading::before {
+			content: "";
+			position: absolute;
+			inset: 55% 0 0;
+			background: linear-gradient(transparent, #100c15b8);
+		}
+		h1, #loading-label {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			overflow: hidden;
+			clip-path: inset(50%);
+		}
+		progress {
+			position: absolute;
+			inset: auto 8% 8%;
+			width: 84%;
+			height: clamp(0.8rem, 3vw, 1.35rem);
+			padding: 2px;
+			border: 1px solid #e4d9c4;
+			background: #171017;
+			box-shadow: 0 0 0 1px #030205;
+			appearance: none;
+		}
+		progress::-webkit-progress-bar { background: #171017; }
+		progress::-webkit-progress-value { background: #c66f64; }
+		progress::-moz-progress-bar { background: #c66f64; }
+		progress:indeterminate {
+			background: linear-gradient(90deg, #c66f64 0 14%, #171017 14%);
+		}
+		p { font: 1rem/1.5 system-ui, sans-serif; }
+		#status-notice, noscript p {
+			position: relative;
+			background: #171017;
+			border: 1px solid #c66f64;
+			color: #ffc2a8;
+			padding: 1rem 1.5rem;
+			margin: 1rem;
+			max-width: 28rem;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" tabindex="0">Prohlizec nepodporuje vykreslovani hry.</canvas>
+	<div id="status">
+		<img class="loading-art" src="index.png" alt="">
+		<main class="loading">
+			<h1>Bohemiablo</h1>
+			<progress id="status-progress" aria-label="Nacitani hry"></progress>
+			<p id="loading-label" role="status">Nacitam vesnici...</p>
+			<p id="status-notice" role="alert" hidden></p>
+			<noscript><p>Pro spusteni hry povol JavaScript.</p></noscript>
+		</main>
+	</div>
+	<script>
+		const statusOverlay = document.getElementById("status");
+		const progress = document.getElementById("status-progress");
+		const loadingLabel = document.getElementById("loading-label");
+		const notice = document.getElementById("status-notice");
+
+		function showFailure(error) {
+			progress.hidden = true;
+			loadingLabel.hidden = true;
+			notice.hidden = false;
+			notice.textContent = "Hru se nepodarilo spustit. " + (error?.message || error);
+			console.error(error);
+		}
+	</script>
+	<script src="index.js" onerror="showFailure('Nepodarilo se nacist soubory hry.')"></script>
+	<script>
+		if (typeof Engine !== "undefined") {
+			const missing = Engine.getMissingFeatures({ threads: false });
+			if (missing.length) {
+				showFailure(missing.join("; "));
+			} else {
+				const engine = new Engine({"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":10807288,"index.wasm":38034280},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4});
+				engine.startGame({
+					onProgress(current, total) {
+						if (current > 0 && total > 0 && current < total) {
+							progress.max = total;
+							progress.value = current;
+						} else {
+							progress.removeAttribute("value");
+						}
+						if (total > 0 && current >= total) {
+							loadingLabel.textContent = "Spoustim hru...";
+						}
+					}
+				}).then(() => statusOverlay.remove(), showFailure);
+			}
+		}
+	</script>
+</body>
+</html>
