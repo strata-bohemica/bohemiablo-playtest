@@ -2,6 +2,6 @@
 
 [Play in your browser](https://strata-bohemica.github.io/bohemiablo-playtest/)
 
-Godot web export from Bohemiablo source revision `099eab236ab8a028a5a4f8f4b6dd59d3974d953e`.
+Godot web export from Bohemiablo source revision `9270fa8ef92c744692a720769beee820c28e9f58`.
 
 [Asset credits](credits.txt)

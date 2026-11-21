@@ -6,5 +6,8 @@ https://creativecommons.org/licenses/by/4.0/
 Selected assets are arranged, scaled, and lit in the game scene.
 Additional village assets come from the Strata Bohemica Studio collection.
 
+Hejkal's head is adapted from the MakeHuman base mesh, CC0 1.0.
+https://www.makehumancommunity.org/about/license.html
+
 Voice performances and guitar recording supplied by the project owner.
 Diablo Heavy typeface by MaGiK Software (1997).
